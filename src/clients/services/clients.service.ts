@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Client } from 'src/entities/client.entity';
+import { Client } from 'src/clients/entities/client.entity';
 
 @Injectable()
 export class ClientsService {
@@ -20,4 +20,8 @@ export class ClientsService {
         age: 21,
         city: `cali`,
     }]
+
+    finAll():Client[] {
+        return this.clients;
+    }
 }
