@@ -1,25 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { Client } from 'pg';
-
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule } from './clients/clients.module';
 import config from './config';
 import { environments } from './environments';
+import { DatabaseModule } from './database/database.module';
 
-const client = new Client({
-  user: `root`,
-  host: `localhost`,
-  database: `my_db`,
-  password: `123456`,
-  port: 5432
-})
-
-client.connect()
-
-client.query(`SELECT * FROM client`)
 
 @Module({
   imports: [
@@ -28,7 +16,8 @@ client.query(`SELECT * FROM client`)
       load: [config],
       isGlobal: true,
     }),
-    ClientsModule],
+    ClientsModule,
+    DatabaseModule],
   controllers: [AppController],
   providers: [AppService],
 })
