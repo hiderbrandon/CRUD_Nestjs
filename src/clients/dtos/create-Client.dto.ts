@@ -5,7 +5,7 @@ import { IsString, IsNotEmpty, IsInt } from 'class-validator';
 export class CreateClientDto {
     @IsString()
     @IsNotEmpty()
-    name: string;
+    firstName: string;
     @IsString()
     @IsNotEmpty()
     lastName: string;

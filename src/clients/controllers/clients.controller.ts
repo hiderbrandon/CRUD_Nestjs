@@ -8,7 +8,7 @@ export class ClientsController {
     constructor(private readonly clientsService: ClientsService) { }
 
     @Get()
-    gatAllClients(): CreateClientDto[] {
+    gatAllClients() {//: CreateClientDto[]
         return this.clientsService.finAll();
     }
 

@@ -9,26 +9,10 @@ import config from 'src/config';
 export class ClientsService {
 
     constructor(private configService: ConfigService) { }
-    private clients: Client[] = [{
-        name: `hider`,
-        lastName: `vargas`,
-        idType: `cc`,
-        id: 1,
-        age: 26,
-        city: `cali`,
-    },
-    {
-        name: `gabe`,
-        lastName: `arango`,
-        idType: `cc`,
-        id: 2,
-        age: 21,
-        city: `cali`,
-    }]
 
-    finAll(): Client[] {
+    finAll() {//: Client[]
         const dbname = this.configService.get(`POSTGRES_DB`)
         console.log(dbname);
-        return this.clients;
+        //return this.clients;
     }
 }
