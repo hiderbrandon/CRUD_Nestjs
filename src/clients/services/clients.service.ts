@@ -7,6 +7,7 @@ import { Repository } from "typeorm";
 import { Client } from '../entities/client.entity';
 import config from 'src/config';
 import { CreateClientDto } from '../dtos/create-Client.dto';
+import { UpdateClientDto } from '../dtos/update-client.dto';
 
 @Injectable()
 export class ClientsService {
@@ -20,8 +21,9 @@ export class ClientsService {
         this.clientRepo.find()
     }
 
-    findOne(idNumber: number) {
-        const aClient = this.clientRepo.findOneBy({ id: idNumber });
+    async findOne(idNumber: number) {
+        const aClient = await this.clientRepo.findOneBy({ id: idNumber });
+        return aClient;
     }
 
     create(aClient: CreateClientDto) {
@@ -29,5 +31,13 @@ export class ClientsService {
         return this.clientRepo.save(newClient);
     }
 
-   // update(idNumber: number , changes: )
+    async update(idNumber: number, changes: UpdateClientDto) {
+        const aClient = await this.clientRepo.findOneBy({ id: idNumber });
+        this.clientRepo.merge(aClient, changes);
+        return this.clientRepo.save(aClient);
+    }
+
+    remove(idNumber: number) {
+        return this.clientRepo.delete(idNumber)
+    }
 }

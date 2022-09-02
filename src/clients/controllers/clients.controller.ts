@@ -1,5 +1,7 @@
-import { Controller, Get, Param, ParseIntPipe,  } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, } from '@nestjs/common';
+import { isModuleNamespaceObject } from 'util/types';
 import { CreateClientDto } from '../dtos/create-Client.dto';
+import { UpdateClientDto } from '../dtos/update-client.dto';
 import { ClientsService } from '../services/clients.service';
 
 @Controller('clients')
@@ -17,6 +19,18 @@ export class ClientsController {
         return this.clientsService.findOne(idNumber);
     }
 
-   // @Update
+    @Post()
+    create(@Body() payload: CreateClientDto) {
+        return this.clientsService.create(payload);
+    }
 
+    @Put(`:idNumber`)
+    update(@Param(`:idNumber`, ParseIntPipe) idnimber: number, @Body() payload: UpdateClientDto) {
+        return this.clientsService.update(idnimber, payload);
+    }
+
+    @Delete(`:idNumber`)
+    delete(@Param(`:idNumber`, ParseIntPipe) idNumber: number) {
+        this.clientsService.remove(idNumber)
+    }
 }
