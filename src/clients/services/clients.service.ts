@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,12 +17,17 @@ export class ClientsService {
         @InjectRepository(Client) private clientRepo: Repository<Client>,
     ) { }
 
-    finAll() {//: Client[]
+    finAll() {
         this.clientRepo.find()
     }
 
     async findOne(idNumber: number) {
         const aClient = await this.clientRepo.findOneBy({ id: idNumber });
+
+        if (!aClient) {
+            throw new NotFoundException(`product with idNumber: ${idNumber} not found`)
+        }
+
         return aClient;
     }
 
@@ -38,6 +43,7 @@ export class ClientsService {
     }
 
     remove(idNumber: number) {
-        return this.clientRepo.delete(idNumber)
+
+        return this.clientRepo.delete({ id: idNumber })
     }
 }

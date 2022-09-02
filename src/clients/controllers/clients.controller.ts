@@ -25,8 +25,8 @@ export class ClientsController {
     }
 
     @Put(`:idNumber`)
-    update(@Param(`:idNumber`, ParseIntPipe) idnimber: number, @Body() payload: UpdateClientDto) {
-        return this.clientsService.update(idnimber, payload);
+    update(@Param(`:idNumber`, ParseIntPipe) idnumber: number, @Body() payload: UpdateClientDto) {
+        return this.clientsService.update(idnumber, payload);
     }
 
     @Delete(`:idNumber`)

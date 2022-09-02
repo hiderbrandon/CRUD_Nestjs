@@ -17,7 +17,7 @@ export class AppService {
 
   getClients() {
     return new Promise((resolve, reject) => {
-      this.conetionPG.query(`SELECT * FROM cliente`, (err, res) => {
+      this.conetionPG.query(`SELECT * FROM client`, (err, res) => {
         if (err) {
           reject(err);
         }
