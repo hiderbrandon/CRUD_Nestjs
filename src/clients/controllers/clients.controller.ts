@@ -14,7 +14,7 @@ export class ClientsController {
 
     @Get(`:idNumber?`)
     finOne(@Param("idNumber", ParseIntPipe) idNumber: number) {
-        return this.clientsService.findOne(idNumber)
+        return this.clientsService.findOne(idNumber);
     }
 
    // @Update
