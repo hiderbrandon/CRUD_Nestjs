@@ -18,6 +18,8 @@ import config from '../config';
                     port,
                     database: dbName,
                     password,
+                    synchronize: true,// only on dev Envs
+                    autoLoadEntities: true
                 };
             },
             inject: [config.KEY]

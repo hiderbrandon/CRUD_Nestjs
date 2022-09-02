@@ -1,18 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from "typeorm";
 
-import { Client } from 'src/clients/entities/client.entity';
+import { Client } from '../entities/client.entity';
 import config from 'src/config';
 
 @Injectable()
 export class ClientsService {
 
-    constructor(private configService: ConfigService) { }
+    constructor(
+        private configService: ConfigService,
+        @InjectRepository(Client) private clientRepo: Repository<Client>,
+    ) { }
 
     finAll() {//: Client[]
-        const dbname = this.configService.get(`POSTGRES_DB`)
-        console.log(dbname);
-        //return this.clients;
+        this.clientRepo.find()
+    }
+
+    findOne(idNumber: number) {
+        const aClient = this.clientRepo.findOneBy({ id: idNumber });
     }
 }
