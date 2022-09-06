@@ -38,8 +38,6 @@ export class ClientsService {
 
     async update(idNumber: number, idType: "cc" | "ce" | "ti", changes: UpdateClientDto) {
         const aClient = await this.clientRepo.findBy({ id: 2, idType: "cc" });
-
-        return aClient;
         await this.clientRepo.update({ id: idNumber, idType: idType }, changes)
     }
 
