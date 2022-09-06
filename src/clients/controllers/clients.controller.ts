@@ -14,9 +14,9 @@ export class ClientsController {
         return this.clientsService.finAll();
     }
 
-    @Get(`:idNumber?`)
-    finOne(@Param("idNumber", ParseIntPipe) idNumber: number) {
-        return this.clientsService.findOne(idNumber);
+    @Get(`:idNumber/:idType`)
+    finOne(@Param("idNumber", ParseIntPipe) idNumber: number, @Param(`idType`) IdType: "cc" | "ce" | "ti") {
+        return this.clientsService.findOne(idNumber, IdType);
     }
 
     @Post()
@@ -24,13 +24,13 @@ export class ClientsController {
         return this.clientsService.create(payload);
     }
 
-    @Put(`:idNumber`)
-    update(@Param(`:idNumber`, ParseIntPipe) idnumber: number, @Body() payload: UpdateClientDto) {
-        return this.clientsService.update(idnumber, payload);
+    @Put(`:idNumber/:idType`)
+    update(@Param(`idNumber`) idnumber: number, @Param(`idType`) idType: "cc" | "ce" | "ti", @Body() payload: UpdateClientDto) {
+        return this.clientsService.update(idnumber, idType, payload);
     }
 
-    @Delete(`:idNumber`)
-    delete(@Param(`:idNumber`, ParseIntPipe) idNumber: number) {
-        this.clientsService.remove(idNumber)
+    @Delete(`:idNumber/:idType`)
+    delete(@Param(`idNumber`) idNumber: number , @Param(`idType`) idType: "cc" | "ce" | "ti" ) {
+        this.clientsService.remove(idNumber , idType )
     }
 }

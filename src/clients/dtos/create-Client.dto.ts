@@ -11,7 +11,7 @@ export class CreateClientDto {
     lastName: string;
     @IsString()
     @IsNotEmpty()
-    idType: `cc` | `ce` | `ti`;
+    idType: "cc" | "ce" | "ti";
     @IsInt()
     @IsNotEmpty()
     id: number;

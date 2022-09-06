@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, RequestTimeoutException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -21,8 +21,8 @@ export class ClientsService {
         this.clientRepo.find()
     }
 
-    async findOne(idNumber: number) {
-        const aClient = await this.clientRepo.findOneBy({ id: idNumber });
+    async findOne(idNumber: number, IdType: "cc" | "ce" | "ti") {
+        const aClient = await this.clientRepo.findBy({ id: idNumber, idType: IdType });
 
         if (!aClient) {
             throw new NotFoundException(`product with idNumber: ${idNumber} not found`)
@@ -36,14 +36,14 @@ export class ClientsService {
         return this.clientRepo.save(newClient);
     }
 
-    async update(idNumber: number, changes: UpdateClientDto) {
-        const aClient = await this.clientRepo.findOneBy({ id: idNumber });
-        this.clientRepo.merge(aClient, changes);
-        return this.clientRepo.save(aClient);
+    async update(idNumber: number, idType: "cc" | "ce" | "ti", changes: UpdateClientDto) {
+        const aClient = await this.clientRepo.findBy({ id: 2, idType: "cc" });
+
+        return aClient;
+        await this.clientRepo.update({ id: idNumber, idType: idType }, changes)
     }
 
-    remove(idNumber: number) {
-
-        return this.clientRepo.delete({ id: idNumber })
+    async remove(idNumber: number, idType) {
+        await this.clientRepo.delete({ id: idNumber, idType: idType })
     }
 }
