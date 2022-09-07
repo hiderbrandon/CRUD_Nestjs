@@ -25,7 +25,7 @@ export class ClientsService {
         const aClient = await this.clientRepo.findOneBy({ id: idNumber, idType: IdType });
 
         if (!aClient) {
-            throw new NotFoundException(`product with id number: ${idNumber} and id type: ${IdType} not found`)
+            throw new NotFoundException(`Client with id number: ${idNumber} and id type: ${IdType} not found`)
         }
 
         return aClient;
@@ -39,7 +39,7 @@ export class ClientsService {
             return this.clientRepo.save(newClient);
         }
         else {
-            throw new HttpException(`a client with id type ${aClient.idType} and id number : ${aClient.id} already exist`, HttpStatus.FOUND);
+            throw new HttpException(`a client with id type: ${aClient.idType} and id number : ${aClient.id} already exist`, HttpStatus.FOUND);
         }
 
     }
@@ -48,18 +48,18 @@ export class ClientsService {
         const aClient = await this.clientRepo.findOneBy({ id: idNumber, idType: idType });
 
         if (!aClient) {
-            throw new NotFoundException(`product with id number: ${idNumber} with id type ${idType} doesn't exist`);
+            throw new NotFoundException(`Client with id number: ${idNumber} with id type ${idType} doesn't exist`);
         }
         await this.clientRepo.update({ id: idNumber, idType: idType }, changes);
 
     }
 
-    async remove(idNumber: number, idType) {
+    async remove(idNumber: number, idType: "cc" | "ce" | "ti") {
         const aClient = await this.clientRepo.findOneBy({ id: idNumber, idType: idType });
 
         if (!aClient) {
-            throw new NotFoundException();
+            throw new NotFoundException(`Client with id number: ${idNumber} with id type ${idType} doesn't exist`);
         }
-        //await this.clientRepo.delete({ id: idNumber, idType: idType });
+        this.clientRepo.delete({ id: idNumber, idType: idType });
     }
 }
