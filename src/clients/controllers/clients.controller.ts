@@ -30,7 +30,7 @@ export class ClientsController {
     }
 
     @Delete(`:idNumber/:idType`)
-    delete(@Param(`idNumber`) idNumber: number , @Param(`idType`) idType: "cc" | "ce" | "ti" ) {
-        this.clientsService.remove(idNumber , idType )
+    delete(@Param(`idNumber`) idNumber: number, @Param(`idType`) idType: "cc" | "ce" | "ti") {
+        this.clientsService.remove(idNumber, idType)
     }
 }

@@ -2,7 +2,6 @@ import { Module, Global } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { MongoClient } from 'mongodb';
 import { MongooseModule } from "@nestjs/mongoose";
-import { MongoService } from './mongo.service';
 
 import config from "../config";
 
@@ -13,14 +12,14 @@ import config from "../config";
         MongooseModule.forRootAsync({
             useFactory: async (configService: ConfigType<typeof config>) => {
                 const { connection, user, password, host, port, dbName } = configService.mongodb;
-                
+
                 return {
-                    uri:`${connection}://${host}:${port}`,
+                    uri: `${connection}://${host}:${port}`,
                     user,
-                    pass:password,
+                    pass: password,
                     dbName
                 }
-                
+
             },
             inject: [config.KEY],
         })
@@ -38,7 +37,6 @@ import config from "../config";
             },
             inject: [config.KEY],
         },
-        MongoService,
     ],
     exports: ['MONGO', MongooseModule],
 })
