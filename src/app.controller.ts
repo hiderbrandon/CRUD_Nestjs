@@ -15,5 +15,10 @@ export class AppController {
     return this.appService.getClients();
   }
 
+  @Get(`photos`)
+  getAllPhotos() {
+    return this.appService.getPhotos();
+  }
+
 
 }

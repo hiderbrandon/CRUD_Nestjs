@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { MongoClient } from "mongodb";
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -7,6 +8,7 @@ import { ClientsModule } from './clients/clients.module';
 import config from './config';
 import { environments } from './environments';
 import { DatabaseModule } from './database/database.module';
+import { MongoModule } from './mongo/mongo.module';
 
 
 @Module({
@@ -17,7 +19,9 @@ import { DatabaseModule } from './database/database.module';
       isGlobal: true,
     }),
     ClientsModule,
-    DatabaseModule],
+    DatabaseModule,
+    MongoModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

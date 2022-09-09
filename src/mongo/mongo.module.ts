@@ -1,0 +1,77 @@
+import { Module, Global } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
+import { MongoClient } from 'mongodb';
+import { MongooseModule } from "@nestjs/mongoose";
+import { MongoService } from './mongo.service';
+
+import config from "../config";
+
+@Global()
+@Module({
+
+    imports: [
+        MongooseModule.forRootAsync({
+            useFactory: async (configService: ConfigType<typeof config>) => {
+                const { connection, user, password, host, port, dbName } = configService.mongodb;
+                
+                return {
+                    uri:`${connection}://${host}:${port}`,
+                    user,
+                    pass:password,
+                    dbName
+                }
+                
+            },
+            inject: [config.KEY],
+        })
+    ],
+    providers: [
+        {
+            provide: 'MONGO',
+            useFactory: async (configService: ConfigType<typeof config>) => {
+                const { connection, user, password, host, port, dbName } = configService.mongodb;
+                const uri = `${connection}://${user}:${password}@${host}:${port}/?authMechanism=DEFAULT`;
+                const mongoClient = new MongoClient(uri);
+                await mongoClient.connect();
+                const mongoDatabase = mongoClient.db(dbName);
+                return mongoDatabase;
+            },
+            inject: [config.KEY],
+        },
+        MongoService,
+    ],
+    exports: ['MONGO', MongooseModule],
+})
+export class MongoModule { }
+
+
+
+/*twoo ways to make connection 
+@Global()
+@Module({
+
+    imports: [
+        MongooseModule.forRoot(`mongodb://localhost:27017`, {
+            user: `mongo`,
+            pass: `secret`,
+            dbName: `client`,
+        })
+    ],
+    providers: [
+        {
+            provide: 'MONGO',
+            useFactory: async (configService: ConfigType<typeof config>) => {
+                const { connection, user, password, host, port, dbName } = configService.mongodb;
+                const uri = `${connection}://${user}:${password}@${host}:${port}/?authMechanism=DEFAULT`;
+                const mongoClient = new MongoClient(uri);
+                await mongoClient.connect();
+                const mongoDatabase = mongoClient.db(dbName);
+                return mongoDatabase;
+            },
+            inject: [config.KEY],
+        },
+    ],
+    exports: ['MONGO', MongooseModule],
+})
+
+*/
