@@ -9,6 +9,7 @@ import config from './config';
 import { environments } from './environments';
 import { DatabaseModule } from './database/database.module';
 import { MongoModule } from './mongo/mongo.module';
+import { PhotosModule } from './photos/photos.module';
 
 
 @Module({
@@ -21,6 +22,7 @@ import { MongoModule } from './mongo/mongo.module';
     ClientsModule,
     DatabaseModule,
     MongoModule,
+    PhotosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

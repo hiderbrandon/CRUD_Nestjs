@@ -15,7 +15,9 @@ export class ClientsController {
     }
 
     @Get(`:idNumber/:idType`)
-    finOne(@Param("idNumber", ParseIntPipe) idNumber: number, @Param(`idType`) IdType: "cc" | "ce" | "ti") {
+    finOne(
+        @Param("idNumber", ParseIntPipe) idNumber: number,
+        @Param(`idType`) IdType: "cc" | "ce" | "ti") {
         return this.clientsService.findOne(idNumber, IdType);
     }
 

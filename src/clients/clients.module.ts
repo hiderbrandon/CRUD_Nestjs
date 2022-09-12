@@ -6,15 +6,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ClientsController } from './controllers/clients.controller';
 import { ClientsService } from './services/clients.service';
 import { Client } from './entities/client.entity';
-import { Photo, PhotoSchema } from './entities/photo.entity';
+import { Photo, PhotoSchema } from '../photos/entities/photo.entity';
 
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Client]),
-    MongooseModule.forFeature([{
-        name: Photo.name,
-        schema: PhotoSchema,
-    }])],
+    imports: [
+        TypeOrmModule.forFeature([Client])
+    ],
     controllers: [ClientsController],
     providers: [ClientsService],
 })

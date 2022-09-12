@@ -1,19 +1,16 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException, RequestTimeoutException } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { ConfigService } from '@nestjs/config';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from "typeorm";
 
 import { Client } from '../entities/client.entity';
-import config from 'src/config';
 import { CreateClientDto } from '../dtos/create-Client.dto';
 import { UpdateClientDto } from '../dtos/update-client.dto';
+
 
 @Injectable()
 export class ClientsService {
 
     constructor(
-        private configService: ConfigService,
         @InjectRepository(Client) private clientRepo: Repository<Client>,
     ) { }
 

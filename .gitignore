@@ -39,3 +39,4 @@ Clients.json
 *.env
 /postgres_data
 /mongo_data
+/photos
