@@ -36,14 +36,28 @@ export class PhotosService {
         return newPhoto.save();
     }
 
-    async update(myPhoto: UpdatePhotoDto) {
-        const newPhoto = new this.photoModel(myPhoto);
+    async update(myPhoto: UpdatePhotoDto): Promise<{}> {
         const aPhoto = await this.photoModel.findOne({ idNumber: myPhoto.idNumber, idType: myPhoto.idType }).exec();
 
         if (!aPhoto) {
             throw new HttpException("this user doesn't have a photo yet  , may be you want to CREATE", HttpStatus.NOT_FOUND);
         }
-        return await this.photoModel.findOneAndUpdate({ idNumber: myPhoto.idNumber, idType: myPhoto.idType }).exec();
+        const succes = await this.photoModel.updateOne(
+            { idNumber: myPhoto.idNumber },
+            { $set: { photo: myPhoto.photo } });
+
+        console.log(succes);
+        return succes;
+    }
+
+    async remove(idNumber: number, idType: "cc" | "ce" | "ti") {
+        const aPhoto = await this.photoModel.findOne({ idNumber, idType }).exec();
+
+        if (!aPhoto) {
+            throw new HttpException("this user doesn't have a photo yet  , may be you want to CREATE", HttpStatus.NOT_FOUND);
+        }
+
+        return await this.photoModel.remove({ idNumber, idType }).exec();
     }
 
 }

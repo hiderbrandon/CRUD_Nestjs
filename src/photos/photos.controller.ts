@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreatePhotoDto } from './dtos/create-photo.dto';
 import { UpdatePhotoDto } from './dtos/update-Photo.dto';
@@ -19,9 +19,17 @@ export class PhotosController {
         return this.photosService.findOne(idNumber, idType);
     }
 
+    @Delete(`:idNumber/:idType`)
+    removeOnePhoto(
+        @Param(`idNumber`) idNumber: number,
+        @Param(`idType`) idType: "cc" | "ce" | "ti") {
+        return this.photosService.remove(idNumber, idType);
+    }
+
+
     @Post(`:idNumber/:idType`)
     @UseInterceptors(FileInterceptor(`file`))
-    UploadPhoto(
+    uploadPhoto(
         @UploadedFile() file: Express.Multer.File,
         @Param(`idNumber`) idNumber: number,
         @Param(`idType`) idType: "cc" | "ce" | "ti") {
@@ -37,7 +45,7 @@ export class PhotosController {
     upDatePhoto(
         @UploadedFile() file: Express.Multer.File,
         @Param(`idNumber`) idNumber: number,
-        @Param(`idType`) idType: "cc" | "ce" | "ti") {
+        @Param(`idType`) idType: "cc" | "ce" | "ti"): Promise<{}> {
 
         let myImage64: string = file.buffer.toString(`base64`);
         let payload: UpdatePhotoDto = { idNumber: idNumber, idType: idType, photo: myImage64 };
