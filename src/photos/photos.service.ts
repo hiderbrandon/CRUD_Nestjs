@@ -42,7 +42,7 @@ export class PhotosService {
         if (!aPhoto) {
             throw new HttpException("this user doesn't have a photo yet  , may be you want to CREATE", HttpStatus.NOT_FOUND);
         }
-        const succes = await this.photoModel.updateOne(
+        const succes = await this.photoModel.findOneAndUpdate(
             { idNumber: myPhoto.idNumber },
             { $set: { photo: myPhoto.photo } });
 
